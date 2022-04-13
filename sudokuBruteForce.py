@@ -91,7 +91,10 @@ def isItSolved(table):
 
 
 
-def solveBrutely(table):
+def solveBrutely(table, count):
+    global counter
+    counter += 1
+    count += 1
     global tableSolved
     if tableSolved == False:
         for row in range(9):
@@ -106,8 +109,9 @@ def solveBrutely(table):
                             # printTable(table)
                             if row == 8 and column == 8:
                                 tableSolved = isItSolved(table)
-                                printTable(table)                         
-                            solveBrutely(table)
+                                printTable(table)    
+                                print("count: " + str(count))                     
+                            solveBrutely(table, count)
                     table[row][column][0] = '-'
                     return
 
@@ -117,14 +121,14 @@ def solveBrutely(table):
 #######################################################################
 ####        enter a new Sudoku puzzle as a string
 #######################################################################
-# inputString = '--581-6---9------2-----3---5------8---867-1-----4-------7--4---2--73---6-----53--'
-# inputString = '- - - - 1 - - - 6 2- - 5 - 6 3 - - - 5 - - 4 - - - - - 2 - 7 - 9 - - 4 3 - - - - - - 8 - - - - - 5 - - - - - - - - - 1 - - - - 7 - 6 - 2 - - 9 - - 9 - - - 4 - - '       # takes >50sec to solve
-# inputString = '-5-17---4--6---5------2------891--7------6--9-1---2----6-45---73------8------9---'
-# inputString = '-------2---68--3-7-1--9------5----4-9---8-5-2---2---6-6----3-----37--8-5------4--'
-inputString = '8----------36------7--9-2---5---7-------457-----1---3---1----68--85---1--9----4--'   # "hardest ever,"" takes 7 seconds to solve
-# inputString = '--53-----8------2--7--1-5--4----53---1--7---6--32---8--6-5----9--4----3------97--'
+# inputString = '--581-6---9------2-----3---5------8---867-1-----4-------7--4---2--73---6-----53--'   # 87114 function calls
+# inputString = '----1---62--5-63---5--4-----2-7-9--43------8-----5---------1----7-6-2--9--9---4--'   # takes >50sec to solve, 368267 function calls
+inputString = '-5-17---4--6---5------2------891--7------6--9-1---2----6-45---73------8------9---'
+# inputString = '-------2---68--3-7-1--9------5----4-9---8-5-2---2---6-6----3-----37--8-5------4--'   # 39242 function calls
+# inputString = '8----------36------7--9-2---5---7-------457-----1---3---1----68--85---1--9----4--'   # "hardest ever,"" takes 7 seconds to solve, 49559 function calls
+# inputString = '--53-----8------2--7--1-5--4----53---1--7---6--32---8--6-5----9--4----3------97--'   # 10008 function calls
 inputString = inputString.replace(" ", "")
-
+print(inputString)
 newTable = [[['-', False] for j in range(9)] for i in range(9)]
 
 increment = 0
@@ -147,8 +151,10 @@ printTable(newTable)
 tableSolved = False
 print("beginning to solve now")
 start = datetime.now()
-solveBrutely(newTable)
+counter = 0
+solveBrutely(newTable, counter)
 end = datetime.now()
+print("counter: " + str(counter))
 print("time passed: " + str(end - start))
 ###################################################
 
